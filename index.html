@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Remove Markers</title>
+    <title>Location Collection</title>
     <style>
       html, body, #map-canvas {
         height: 100%;
         margin: 0px;
         padding: 0px
       }
+
+
+#panel {
+         text-align: center;
+padding: 35px;
+border-bottom: 5px solid rgb(76, 133, 148);
+}
+
+/*
       #panel {
         position: absolute;
         top: 5px;
@@ -17,9 +26,107 @@
         background-color: #fff;
         padding: 5px;
         border: 1px solid #999;
-      }
+      }*/
     </style>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+
+
+
+<script type="text/javascript">
+
+
+
+function logout()
+{
+    gapi.auth.signOut();
+    location.reload();
+}
+function login() 
+{
+  var myParams = {
+    'clientid' : '976236104745-uk0pqcuqm3ch3usemafj6fs455ijs00r.apps.googleusercontent.com',
+    'cookiepolicy' : 'single_host_origin',
+    'callback' : 'loginCallback',
+    'approvalprompt':'force',
+    'scope' : 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.profile.emails.read'
+  };
+  gapi.auth.signIn(myParams);
+}
+ 
+function loginCallback(result)
+{
+    if(result['status']['signed_in'])
+    {
+        var request = gapi.client.plus.people.get(
+        {
+            'userId': 'me'
+        });
+        request.execute(function (resp)
+        {
+            var email = '';
+            if(resp['emails'])
+            {
+                for(i = 0; i < resp['emails'].length; i++)
+                {
+                    if(resp['emails'][i]['type'] == 'account')
+                    {
+                        email = resp['emails'][i]['value'];
+                    }
+                }
+            }
+ 
+            var str = "Name:" + resp['displayName'] + "<br>";
+            str += "Image:" + resp['image']['url'] + "<br>";
+            str += "<img src='" + resp['image']['url'] + "' /><br>";
+ 
+            str += "URL:" + resp['url'] + "<br>";
+            str += "Email:" + email + "<br>";
+            document.getElementById("profile").innerHTML = str;
+        });
+ 
+    }
+ 
+}
+function onLoadCallback()
+{
+    gapi.client.setApiKey('AIzaSyDkm4sQ9jMjZ44C49HTniLlolYwNKobAdk');
+    gapi.client.load('plus', 'v1',function(){});
+}
+ 
+    </script>
+ 
+<script type="text/javascript">
+      (function() {
+       var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+       po.src = 'https://apis.google.com/js/client.js?onload=onLoadCallback';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+     })();
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <script>
 // In the following example, markers appear when the user clicks on the map.
 // The markers are stored in an array.
@@ -28,9 +135,10 @@ var map;
 var markers = [];
 
 function initialize() {
-  var haightAshbury = new google.maps.LatLng(37.7699298, -122.4469157);
+ 
+  var haightAshbury = new google.maps.LatLng(18.516074596589366, 73.84074211120605);
   var mapOptions = {
-    zoom: 12,
+    zoom: 13,
     center: haightAshbury,
     mapTypeId: google.maps.MapTypeId.TERRAIN
   };
@@ -83,9 +191,10 @@ google.maps.event.addDomListener(window, 'load', initialize);
     </script>
   </head>
   <body>
+<div id="profile"></div>
     <div id="panel">
-      <input onclick="clearMarkers();" type=button value="Hide Markers">
-      <input onclick="showMarkers();" type=button value="Show All Markers">
+      <input type=button value="Log in" class="btn btn-lg btn-info" >
+      <input onclick="login()" type=button value="log in" class="btn">
       <input onclick="deleteMarkers();" type=button value="Delete Markers">
     </div>
     <div id="map-canvas"></div>
