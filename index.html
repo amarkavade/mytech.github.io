@@ -155,7 +155,7 @@ var contentString = '<div class="panel panel-default">'+
                 'title'+
                   '</div>'+
                   '<div class="panel-body">'+
-                  '<input type=button value="Log in" class="btn btn-lg btn-info">'+
+                  '<input type=button value="Update location" class="btn btn-lg btn-info">'+
                   '</div>'+
                   '</div>';
 
@@ -207,8 +207,29 @@ function clearMarkers(isFirst) {
 }
 
 // Shows any markers currently in the array.
-function showMarkers() {
-//  setAllMap(map);
+function uploadData() {
+  var request = $.ajax({
+        url: "https://script.google.com/a/macros/xcalibertech.com/s/AKfycbwf9RDnmcIwv5VhAtgg9In1XTNTiBAkzMWl45RuSQmS2-seVYGu/exec",
+        type: "post",
+        data: {uname:user.uname,email:user.email,lat:marker.position.lat,long:marker.position.lng};
+    });
+
+    // callback handler that will be called on success
+    request.done(function (response, textStatus, jqXHR){
+        // log a message to the console
+        console.log(response);
+    });
+
+    // callback handler that will be called on failure
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        // log the error to the console
+        console.error(
+            "The following error occured: "+
+            textStatus, errorThrown
+        );
+    });
+
+
 }
 
 // Deletes all markers in the array by removing references to them.
@@ -224,7 +245,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
   <body>
     <div id="profile"></div>
     <div id="panel">
-      <input type=button value="Log in" class="btn btn-lg btn-info" >
       <input onclick="login()" type=button value="log in" class="btn">
     </div>
     <div id="map-canvas"></div>
