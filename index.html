@@ -46,7 +46,7 @@ border-bottom: 5px solid rgb(76, 133, 148);
 <script type="text/javascript">
 
 var user;
-
+var pos;
 
 function logout()
 {
@@ -141,6 +141,7 @@ function initialize() {
   // This event listener will call addMarker() when the map is clicked.
   google.maps.event.addListener(map, 'click', function(event) {
     if(typeof user !== 'undefined'){
+      pos=event.LatLng;
    addMarker(event.latLng);
   }
 
@@ -211,7 +212,7 @@ function uploadData() {
   var request = $.ajax({
         url: "https://script.google.com/a/macros/xcalibertech.com/s/AKfycbwf9RDnmcIwv5VhAtgg9In1XTNTiBAkzMWl45RuSQmS2-seVYGu/exec",
         type: "post",
-        data: {uname:user.uname,email:user.email,lat:marker.position.lat,long:marker.position.lng}
+        data: {uname:user.uname,email:user.email,lat:pos.lat(),long:pos.lng()}
     });
 
     // callback handler that will be called on success
