@@ -214,7 +214,7 @@ function uploadData() {
   var request = $.ajax({
         url: "https://script.google.com/a/macros/xcalibertech.com/s/AKfycbwf9RDnmcIwv5VhAtgg9In1XTNTiBAkzMWl45RuSQmS2-seVYGu/exec",
         type: "post",
-        data: {uname:user.uname,email:user.email,lat:pos.lat(),long:pos.lng()}
+        data: {uname:user.uname,email:user.email,lat:pos.lat,long:pos.lng}
     });
 
     // callback handler that will be called on success
