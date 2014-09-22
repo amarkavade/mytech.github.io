@@ -151,8 +151,7 @@ function initialize() {
 
   });
 
-  // Adds a marker at the center of the map.
-//  addMarker(haightAshbury);
+
 }
 
 var contentString = '';
@@ -225,6 +224,7 @@ function update(locobject){
   success: function(object) {
     //$(".success").show();
     infowindow.close();
+     $("#succuss").show();
   },
   error: function(error) {
     alert("Error: " + error.code + " " + error.message);
@@ -276,6 +276,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div id="profile"></div>
     <div id="panel">
       <input onclick="login()" type=button value="log in" class="btn">
+      <div id="succuss" style="display: none;" class="alert alert-success" role="alert"><strong>Well done!</strong>Your location is updated.</div>
     </div>
     <div id="map-canvas"></div>
     <p>Click on the map to add markers.</p>
