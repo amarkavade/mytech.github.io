@@ -99,7 +99,7 @@ function loginCallback(result)
             user.photo=resp['image']['url'];
             user.uname= resp['displayName'];
             $("#login").hide();
-            if(uname.email.indexOf("@xcaliber")<0){
+            if(user.email.indexOf("@xcaliber")<0){
             $("#wrong").show();
             delete user;
             }
