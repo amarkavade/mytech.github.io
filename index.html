@@ -38,6 +38,7 @@ border-bottom: 5px solid rgb(76, 133, 148);
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.0.min.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 
@@ -97,6 +98,7 @@ function loginCallback(result)
             user.email=email;
             user.photo=resp['image']['url'];
             user.uname= resp['displayName'];
+ 	Parse.initialize("VudHmVmE9SBH9pLhxNTCcibBjMYcndk7vncMfcRf", "4AGcLzeHT9WyshheKL2TljaJxFStQBnlhmSwvhvF");
 
             //document.getElementById("profile").innerHTML = str;
         });
@@ -155,12 +157,15 @@ function initialize() {
 
 var contentString = '<div class="panel panel-default">'+
                   '<div id="uname" class="panel-heading">'+
-                'title'+
+                 user.uname+
                   '</div>'+
                   '<div class="panel-body">'+
                   '<input type=button onclick="uploadData()" value="Update location" class="btn btn-lg btn-info">'+
                   '</div>'+
                   '</div>';
+
+
+
 
 
 
@@ -211,28 +216,16 @@ function clearMarkers(isFirst) {
 
 // Shows any markers currently in the array.
 function uploadData() {
-  var request = $.ajax({
-        url: "https://script.google.com/a/macros/xcalibertech.com/s/AKfycbwf9RDnmcIwv5VhAtgg9In1XTNTiBAkzMWl45RuSQmS2-seVYGu/exec",
-        type: "post",
-        data: {uname:user.uname,email:user.email,lat:pos.lat,long:pos.lng}
+    var UserLocation = Parse.Object.extend("UserLocation");
+    var location = new UserLocation();
+      location.save(user, {
+      success: function(object) {
+        $(".success").show();
+      },
+      error: function(model, error) {
+        $(".error").show();
+      }
     });
-
-    // callback handler that will be called on success
-    request.done(function (response, textStatus, jqXHR){
-        // log a message to the console
-        console.log(response);
-    });
-
-    // callback handler that will be called on failure
-    request.fail(function (jqXHR, textStatus, errorThrown){
-        // log the error to the console
-        console.error(
-            "The following error occured: "+
-            textStatus, errorThrown
-        );
-    });
-
-
 }
 
 // Deletes all markers in the array by removing references to them.
