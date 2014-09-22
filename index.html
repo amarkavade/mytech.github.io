@@ -99,6 +99,13 @@ function loginCallback(result)
             user.photo=resp['image']['url'];
             user.uname= resp['displayName'];
             $("#login").hide();
+            if(uname.email.indexOf("@xcaliber")<0){
+            $("#wrong").show();
+            delete user;
+            }
+
+
+
  	Parse.initialize("VudHmVmE9SBH9pLhxNTCcibBjMYcndk7vncMfcRf", "4AGcLzeHT9WyshheKL2TljaJxFStQBnlhmSwvhvF");
 
             //document.getElementById("profile").innerHTML = str;
@@ -277,8 +284,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
     <div id="panel">
       <h2><span id="msg" class="label label-info">Please Log in with Xcaliber A/C and Click on map to select your location</span></h2>
-      <input id="login"onclick="login()" type=button value="log in" class="btn btn-default">
+      <input id="login"onclick="login()" type=button value="log in" class="btn btn-default btn-lg">
       <div id="succuss" style="display: none;" class="alert alert-success" role="alert"><strong>Well done!</strong>Your location is updated.</div>
+      <div id="wrong" style="display: none;" class="alert alert-warging" role="alert"><strong>oops!</strong>You not one of us</div>
     </div>
     <div id="map-canvas"></div>
     <p>Click on the map to add markers.</p>
