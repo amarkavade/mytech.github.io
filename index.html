@@ -219,13 +219,13 @@ function clearMarkers(isFirst) {
 function uploadData() {
     var UserLocation = Parse.Object.extend("UserLocation");
     var location = new UserLocation();
-        location.set("Name", user.uname);
-        location.set("Photo", user.photo);
+        //location.set("Name", user.uname);
+      //  location.set("Photo", user.photo);
         location.set("Email", user.email);
-        location.set("lat", pos.lat);
-        location.set("long", pos.lng);
+      //  location.set("lat", pos.lat);
+      //  location.set("long", pos.lng);
 
-      location.save(null, {
+    /*  location.save(null, {
       success: function(object) {
         //$(".success").show();
         infowindow.close();
@@ -234,7 +234,32 @@ function uploadData() {
       //  $(".error").show();
 
       }
-    });
+    }); */
+
+
+
+    var query = new Parse.Query(UserLocation);
+query.equalTo("Email", user.email);
+query.first({
+  success: function(loc) {
+
+    loc.set("Name", user.uname);
+    loc.set("Photo", user.photo);
+    loc.set("lat", pos.lat);
+    loc.set("long", pos.lng);
+    loc.save(null, {
+    success: function(object) {
+      //$(".success").show();
+      infowindow.close();
+    }});
+
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+
+
 
 }
 
