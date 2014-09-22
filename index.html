@@ -247,7 +247,7 @@ function uploadData() {
 query.equalTo("Email", user.email);
 query.first({
   success: function(loc) {
-if(typeof user !== 'undefined'){
+if(typeof loc !== 'undefined'){
   update(loc);
 }else {
   update(location);
