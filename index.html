@@ -155,14 +155,7 @@ function initialize() {
 //  addMarker(haightAshbury);
 }
 
-var contentString = '<div class="panel panel-default">'+
-                  '<div id="uname" class="panel-heading">'+
-                 user.uname+
-                  '</div>'+
-                  '<div class="panel-body">'+
-                  '<input type=button onclick="uploadData()" value="Update location" class="btn btn-lg btn-info">'+
-                  '</div>'+
-                  '</div>';
+var contentString = '';
 
 
 
@@ -190,8 +183,16 @@ function addMarker(location) {
   //markers.push(marker);
 
   google.maps.event.addListener(marker, 'click', function() {
+      var html = '<div class="panel panel-default">'+
+                        '<div id="uname" class="panel-heading">'+
+                       user.uname+
+                        '</div>'+
+                        '<div class="panel-body">'+
+                        '<input type=button onclick="uploadData()" value="Update location" class="btn btn-lg btn-info">'+
+                        '</div>'+
+                        '</div>';
+      infowindow.setContent(html);
       infowindow.open(map,marker);
-      $('#uname').text(user.uname);
     });
 }
 
@@ -220,12 +221,15 @@ function uploadData() {
     var location = new UserLocation();
       location.save(user, {
       success: function(object) {
-        $(".success").show();
+        //$(".success").show();
+        infowindow.close();
       },
       error: function(model, error) {
-        $(".error").show();
+      //  $(".error").show();
+
       }
     });
+
 }
 
 // Deletes all markers in the array by removing references to them.
