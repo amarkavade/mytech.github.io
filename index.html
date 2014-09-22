@@ -219,7 +219,13 @@ function clearMarkers(isFirst) {
 function uploadData() {
     var UserLocation = Parse.Object.extend("UserLocation");
     var location = new UserLocation();
-      location.save(user, {
+        location.set("Name", user.uname);
+        location.set("Photo", user.photo);
+        location.set("Email", user.email);
+        location.set("lat", pos.lat);
+        location.set("long", pos.lng);
+
+      location.save(null, {
       success: function(object) {
         //$(".success").show();
         infowindow.close();
