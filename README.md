@@ -1,2 +1,2 @@
-xcalibertech.github.io
+mytech.github.io
 ======================
